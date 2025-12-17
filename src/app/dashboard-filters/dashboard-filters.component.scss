@@ -1,0 +1,14 @@
+.filters-row {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.filters-card {
+  margin-bottom: 16px;
+}
+
+mat-form-field {
+  min-width: 260px;
+}

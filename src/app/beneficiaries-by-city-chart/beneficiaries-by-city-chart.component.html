@@ -11,12 +11,15 @@
     } @else {
       <app-export-csv-button [data]="data()" />
 
-      <canvas
-        baseChart
-        [type]="'bar'"
-        [data]="chartData()"
-        [options]="chartOptions"
-      ></canvas>
+      <div class ="bar-chart">
+        <canvas
+          baseChart
+          [type]="'bar'"
+          [data]="chartData()"
+          [options]="chartOptions"
+        ></canvas>
+      </div>
+
     }
   </mat-card-content>
 </mat-card>

@@ -1,34 +1,53 @@
 <mat-card class="filters-card">
   <div class="filters-row">
+
     <mat-form-field appearance="outline">
-      <mat-label>Date range</mat-label>
-
-      <mat-date-range-input [rangePicker]="picker">
-        <input
-          matStartDate
-          placeholder="From"
-          [(ngModel)]="from"
-          (dateChange)="onDateChange()"
-        />
-
-        <input
-          matEndDate
-          placeholder="To"
-          [(ngModel)]="to"
-          (dateChange)="onDateChange()"
-        />
-      </mat-date-range-input>
-
-
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-date-range-picker #picker></mat-date-range-picker>
+      <mat-label>From</mat-label>
+      <input
+        matInput
+        [matDatepicker]="fromPicker"
+        [(ngModel)]="from"
+      />
+      <mat-datepicker-toggle matSuffix [for]="fromPicker" />
+      <mat-datepicker #fromPicker />
     </mat-form-field>
 
-    <div class="clear-button">
-      <button mat-stroked-button color="primary" (click)="clear()">
-        Clear
-      </button>
-    </div>
+    <mat-form-field appearance="outline">
+      <mat-label>To</mat-label>
+      <input
+        matInput
+        [matDatepicker]="toPicker"
+        [(ngModel)]="to"
+      />
+      <mat-datepicker-toggle matSuffix [for]="toPicker" />
+      <mat-datepicker #toPicker />
+    </mat-form-field>
+
+    <!-- Program dropdown (waiting for data source clarification) -->
+    <mat-form-field appearance="outline">
+      <mat-label>Program</mat-label>
+      <mat-select [(ngModel)]="programId" disabled>
+        <mat-option [value]="null">All programs</mat-option>
+        <!-- options will be added once program source is confirmed -->
+      </mat-select>
+    </mat-form-field>
+
+
+    <button
+      mat-flat-button
+      color="primary"
+      (click)="apply()"
+    >
+      Apply
+    </button>
+
+
+    <button
+      mat-stroked-button
+      (click)="clear()"
+    >
+      Clear
+    </button>
 
   </div>
 </mat-card>

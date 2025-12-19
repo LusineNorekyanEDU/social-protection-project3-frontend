@@ -1,13 +1,14 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FilterStateService } from '../services/filter-state.service';
 import { FormsModule } from '@angular/forms';
+import { FilterStateService } from '../services/filter-state.service';
 import { MatCardModule } from '@angular/material/card';
-import { MatDateRangeInput, MatDateRangePicker, MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-dashboard-filters',
@@ -18,11 +19,10 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatCardModule,
     MatFormFieldModule,
     MatDatepickerModule,
-    MatDateRangeInput,
-    MatDateRangePicker,
     MatNativeDateModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSelectModule
   ],
   templateUrl: './dashboard-filters.component.html',
   styleUrls: ['./dashboard-filters.component.scss'],
@@ -31,10 +31,12 @@ import { MatNativeDateModule } from '@angular/material/core';
 export class DashboardFiltersComponent {
   private readonly filterState = inject(FilterStateService);
 
+  // Local (unapplied) state
   from: Date | null = null;
   to: Date | null = null;
+  programId: number | null = null;
 
-  onDateChange(): void {
+  apply(): void {
     if (this.from && this.to && this.from > this.to) {
       const tmp = this.from;
       this.from = this.to;
@@ -43,13 +45,15 @@ export class DashboardFiltersComponent {
 
     this.filterState.updateFilter({
       from: this.from,
-      to: this.to
+      to: this.to,
+      programId: this.programId
     });
   }
 
   clear(): void {
     this.from = null;
     this.to = null;
+    this.programId = null;
     this.filterState.reset();
   }
 }

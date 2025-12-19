@@ -1,17 +1,23 @@
 import {
   ChangeDetectionStrategy,
-  Component, computed,
+  Component,
+  computed,
   inject
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { switchMap, startWith } from 'rxjs';
+
 import { MetricsApiService } from '../services/metrics-api.service';
 import { FilterStateService } from '../services/filter-state.service';
 import { FinancialLiabilityDto } from '../models/metrics.model';
+import { FinancialLiabilityDialogComponent } from
+    '../financial-liability-dialog.component/financial-liability-dialog.component';
 
 @Component({
   selector: 'app-financial-liability-chart',
@@ -20,7 +26,8 @@ import { FinancialLiabilityDto } from '../models/metrics.model';
     CommonModule,
     MatCardModule,
     MatDividerModule,
-    MatTableModule
+    MatTableModule,
+    MatButtonModule
   ],
   templateUrl: './financial-liability-chart.component.html',
   styleUrls: ['./financial-liability-chart.component.scss'],
@@ -29,11 +36,8 @@ import { FinancialLiabilityDto } from '../models/metrics.model';
 export class FinancialLiabilityChartComponent {
   private readonly metricsApi = inject(MetricsApiService);
   private readonly filterState = inject(FilterStateService);
+  private readonly dialog = inject(MatDialog);
 
-  /**
-   * Observable → Signal
-   * Automatically re-fetches when filters change
-   */
   private readonly data$ = this.filterState.filter$.pipe(
     switchMap(filter =>
       this.metricsApi.getFinancialLiability(filter)
@@ -52,5 +56,29 @@ export class FinancialLiabilityChartComponent {
     'approvedCount',
     'payoutAmount',
     'projectedLiability'
-  ];
+  ] as const;
+
+  /** All rows */
+  readonly allRows = computed(() => this.data()?.byProgram ?? []);
+
+  /** Only first 4 rows */
+  readonly visibleRows = computed(() =>
+    this.allRows().slice(0, 4)
+  );
+
+  /** Whether "Show more" button should appear */
+  readonly hasMoreRows = computed(() =>
+    this.allRows().length > 4
+  );
+
+  openDialog(): void {
+    this.dialog.open(FinancialLiabilityDialogComponent, {
+      width: '900px',
+      maxHeight: '80vh',
+      data: {
+        rows: this.allRows(),
+        displayedColumns: this.displayedColumns
+      }
+    });
+  }
 }

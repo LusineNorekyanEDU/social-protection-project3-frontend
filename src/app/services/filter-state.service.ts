@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { DashboardFilter } from '../models/metrics.model';
+import {BehaviorSubject} from 'rxjs';
+import {DashboardFilter} from '../models/metrics.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +11,7 @@ export class FilterStateService {
     to: null,
     programId: null
   };
+
 
   private readonly filterSubject =
     new BehaviorSubject<DashboardFilter>(this.initialFilter);

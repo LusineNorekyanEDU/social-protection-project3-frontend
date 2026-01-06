@@ -1,10 +1,14 @@
-mat-card{
+mat-card {
   height: 100%;
 }
-mat-card-header{
+
+mat-card-header {
   margin-bottom: 20px;
 }
-app-export-csv-button{
-  display:flex;
-  justify-self: flex-end;
+
+.show-more-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+
 }

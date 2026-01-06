@@ -23,14 +23,22 @@
       <mat-datepicker #toPicker />
     </mat-form-field>
 
-    <!-- Program dropdown (waiting for data source clarification) -->
     <mat-form-field appearance="outline">
       <mat-label>Program</mat-label>
-      <mat-select [(ngModel)]="programId" disabled>
-        <mat-option [value]="null">All programs</mat-option>
-        <!-- options will be added once program source is confirmed -->
+
+      <mat-select [(ngModel)]="programId">
+        <mat-option [value]="null">
+          All programs
+        </mat-option>
+
+        @for (program of programs; track program.programId) {
+          <mat-option [value]="program.programId">
+            {{ program.programName }}
+          </mat-option>
+        }
       </mat-select>
     </mat-form-field>
+
 
 
     <button

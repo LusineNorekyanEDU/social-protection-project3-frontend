@@ -35,11 +35,11 @@ interface DialogData {
   templateUrl: './financial-liability-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FinancialLiabilityDialogComponent implements AfterViewInit {
+export class FinancialLiabilityDialogComponent {
   readonly dataSource: MatTableDataSource<unknown>;
   readonly displayedColumns: readonly string[];
 
-  @ViewChild(MatPaginator) paginator?: MatPaginator;
+
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private readonly data: DialogData,
@@ -49,17 +49,10 @@ export class FinancialLiabilityDialogComponent implements AfterViewInit {
     this.displayedColumns = data.displayedColumns;
   }
 
-  get usePagination(): boolean {
-    return this.dataSource.data.length > 20;
-  }
 
   close(): void {
     this.dialogRef.close();
   }
 
-  ngAfterViewInit(): void {
-    if (this.usePagination && this.paginator) {
-      this.dataSource.paginator = this.paginator;
-    }
-  }
+
 }

@@ -38,13 +38,7 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
 
-  @if (usePagination) {
-    <mat-paginator
-      [pageSize]="20"
-      [pageSizeOptions]="[20, 50, 100]"
-      showFirstLastButtons
-    />
-  }
+
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">

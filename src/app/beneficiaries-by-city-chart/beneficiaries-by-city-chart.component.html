@@ -9,9 +9,10 @@
     } @else if (data() === null) {
       <div>No data for selected filters.</div>
     } @else {
+      <!-- CSV EXPORT (FULL DATA) -->
       <app-export-csv-button [data]="data()" />
 
-      <div class ="bar-chart">
+      <div class="bar-chart">
         <canvas
           baseChart
           [type]="'bar'"
@@ -20,6 +21,13 @@
         ></canvas>
       </div>
 
+      @if (hasMoreCities()) {
+        <div class="show-more-container">
+          <button mat-button color="primary" (click)="openDialog()">
+            Show more
+          </button>
+        </div>
+      }
     }
   </mat-card-content>
 </mat-card>

@@ -29,6 +29,11 @@ export interface FinancialLiabilityDto {
   byProgram: ProgramLiability[];
 }
 
+export interface ProgramDto {
+  programId: number;
+  programName: string;
+}
+
 export interface ProgramLiability {
   programId: number;
   programName: string;
@@ -42,5 +47,5 @@ export interface ProgramLiability {
 export interface DashboardFilter {
   from: Date | null;
   to: Date | null;
-  programId: number | null; // TODO: use when Program API is clarified
+  programId: number | null;
 }

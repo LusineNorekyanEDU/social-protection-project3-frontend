@@ -1,14 +1,21 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { FilterStateService } from '../services/filter-state.service';
+import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
+import {ProgramDto} from '../models/metrics.model';
+import { FilterStateService } from '../services/filter-state.service';
+import {ProgramsApiService} from '../services/program.service';
 
 @Component({
   selector: 'app-dashboard-filters',
@@ -28,13 +35,21 @@ import { MatSelectModule } from '@angular/material/select';
   styleUrls: ['./dashboard-filters.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DashboardFiltersComponent {
+export class DashboardFiltersComponent implements OnInit {
   private readonly filterState = inject(FilterStateService);
+  private readonly programsApi = inject(ProgramsApiService);
 
-  // Local (unapplied) state
   from: Date | null = null;
   to: Date | null = null;
   programId: number | null = null;
+
+  programs: ProgramDto[] = [];
+
+  ngOnInit(): void {
+    this.programsApi.getPrograms(true).subscribe(programs => {
+      this.programs = programs;
+    });
+  }
 
   apply(): void {
     if (this.from && this.to && this.from > this.to) {

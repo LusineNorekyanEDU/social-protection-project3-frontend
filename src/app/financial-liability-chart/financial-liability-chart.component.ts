@@ -61,14 +61,14 @@ export class FinancialLiabilityChartComponent {
   /** All rows */
   readonly allRows = computed(() => this.data()?.byProgram ?? []);
 
-  /** Only first 4 rows */
+  /** Only first X rows */
   readonly visibleRows = computed(() =>
-    this.allRows().slice(0, 4)
+    this.allRows().slice(0, 3)
   );
 
   /** Whether "Show more" button should appear */
   readonly hasMoreRows = computed(() =>
-    this.allRows().length > 4
+    this.allRows().length > 3
   );
 
   openDialog(): void {
